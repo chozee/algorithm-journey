@@ -1,19 +1,18 @@
 package class135;
 
 // 工具工厂
-// 一共有n种工具，编号1~n，每种工具的制作天数在3天到9天之间。
-// 一共有m条记录，例如其中一条记录如下：
-// 4 WED SUN
-// 13 18 1 13
-// 表示有个工人一共加工了4件工具，这个工人在某个星期三开始工作，到某个星期天结束工作。
-// 这四件工具分别是13号、18号、1号和13号工具。
-// 已知每个工人在工作期间没有休息，每件工具都是串行加工的，即完成一件后才开始下一件。
-// 现在需要根据记录推断每种工具的制作天数。
+// 一共有n种工具，编号1~n，一共有m条记录，其中一条记录格式如下：
+// 4 WED SUN 13 18 1 13
+// 表示有个工人一共加工了4件工具，从某个星期三开始工作，到某个星期天结束工作
+// 加工的工具依次为13号、18号、1号、13号
+// 每个工人在工作期间不休息，每件工具都是串行加工的，完成一件后才开始下一件
+// 每种工具制作天数是固定的，并且任何工具的制作天数最少3天、最多9天
+// 但该数据丢失了，所以现在需要根据记录，推断出每种工具的制作天数
 // 如果记录之间存在矛盾，打印"Inconsistent data."
 // 如果记录无法确定每种工具的制作天数，打印"Multiple solutions."
-// 如果记录能够确定每种工具的制作天数，打印所有结果。
-// 测试链接 : http://poj.org/problem?id=2947
+// 如果记录能够确定每种工具的制作天数，打印所有结果
 // 1 <= n、m <= 300
+// 测试链接 : http://poj.org/problem?id=2947
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
@@ -50,10 +49,6 @@ public class Code03_WidgetFactory {
 		return b == 0 ? a : gcd(b, a % b);
 	}
 
-	public static int lcm(int a, int b) {
-		return a * b / gcd(a, b);
-	}
-
 	public static void prepare() {
 		for (int i = 1; i <= s; i++) {
 			for (int j = 1; j <= s + 1; j++) {
@@ -87,9 +82,9 @@ public class Code03_WidgetFactory {
 			if (mat[i][i] != 0) {
 				for (int j = 1; j <= n; j++) {
 					if (i != j && mat[j][i] != 0) {
-						int lcm = lcm(mat[j][i], mat[i][i]);
-						int a = lcm / mat[j][i];
-						int b = lcm / mat[i][i];
+						int gcd = gcd(mat[j][i], mat[i][i]);
+						int a = mat[i][i] / gcd;
+						int b = mat[j][i] / gcd;
 						if (j < i) {
 							mat[j][j] = (mat[j][j] * a) % MOD;
 						}
