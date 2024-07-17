@@ -1,6 +1,8 @@
 package exercise.compare;
 
 import exercise.simple.BubbleSort;
+import exercise.simple.InsertionSort;
+import exercise.simple.SelectionSort;
 
 public class Validator {
 
@@ -22,7 +24,7 @@ public class Validator {
 			int[] arr2 = copyArray(arr);
 			int[] arr3 = copyArray(arr);
 			selectionSort(arr1);
-			new BubbleSort().sort(arr2);
+			new InsertionSort().sort(arr2);
 			insertionSort(arr3);
 			if (!sameArray(arr1, arr2) || !sameArray(arr1, arr3)) {
 				System.out.println("出错了!");

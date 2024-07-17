@@ -7,4 +7,8 @@ public interface Sort {
         arr[i] = arr[j];
         arr[j] = tmp;
     }
+
+    default boolean checkEmpty(int[] arr) {
+        return arr == null || arr.length < 2;
+    }
 }
