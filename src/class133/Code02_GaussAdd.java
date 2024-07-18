@@ -24,15 +24,17 @@ public class Code02_GaussAdd {
 
 	public static int n;
 
+	// 0.0000001 == 1e-7
+	// 因为double类型有精度问题，所以认为
+	// 如果一个数字绝对值 <  sml，则认为该数字是0
+	// 如果一个数字绝对值 >= sml，则认为该数字不是0
 	public static double sml = 1e-7;
 
-	// 重要反例
-	// 2
-	// 0 2 3
-	// 0 0 0
-	// 这么写才对
+	// 高斯消元解决加法方程组模版
+	// 需要保证变量有n个，表达式也有n个
 	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
+			// 本题需要严格区分矛盾、多解、唯一解，所以必须这么写
 			int max = i;
 			for (int j = 1; j <= n; j++) {
 				if (j < i && Math.abs(mat[j][j]) >= sml) {
