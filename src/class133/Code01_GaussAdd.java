@@ -23,10 +23,16 @@ public class Code01_GaussAdd {
 
 	public static int n;
 
+	// 0.0000001 == 1e-7
+	// 因为double类型有精度问题，所以认为
+	// 如果一个数字绝对值 <  sml，则认为该数字是0
+	// 如果一个数字绝对值 >= sml，则认为该数字不是0
 	public static double sml = 1e-7;
 
+	// 需要保证变量有n个，表达式也有n个
 	public static int gauss(int n) {
 		for (int i = 1; i <= n; i++) {
+			// 本题一旦没有唯一解，直接打印"No Solution"，于是可以这么写
 			int max = i;
 			for (int j = i + 1; j <= n; j++) {
 				if (Math.abs(mat[j][i]) > Math.abs(mat[max][i])) {

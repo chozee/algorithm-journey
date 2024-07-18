@@ -19,7 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_GaussModExgcdInv {
+public class Code01_GaussMod2 {
 
 	public static int MOD = 3;
 
@@ -79,19 +79,10 @@ public class Code02_GaussModExgcdInv {
 	}
 
 	// 保证初始系数都是非负数
-	// 如果是系数a是负数，那么转化为非负数，a = (a % mod + mod) % mod
+	// 如果是系数a是负数，那么转化为非负数 : a = (a % mod + mod) % mod
 	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
 			int max = i;
-
-//			// 题目保证一定有解，可以这么写
-//			for (int j = i + 1; j <= n; j++) {
-//				if (mat[j][i] > mat[max][i]) {
-//					max = j;
-//				}
-//			}
-
-			// 如果判断矛盾、多解、唯一解，需要这么写
 			for (int j = 1; j <= n; j++) {
 				if (j < i && mat[j][j] != 0) {
 					continue;
@@ -100,8 +91,6 @@ public class Code02_GaussModExgcdInv {
 					max = j;
 				}
 			}
-
-			// 下面就是经典消元过程
 			swap(i, max);
 			if (mat[i][i] != 0) {
 				for (int j = 1; j <= n; j++) {
@@ -109,8 +98,10 @@ public class Code02_GaussModExgcdInv {
 						int gcd = gcd(mat[j][i], mat[i][i]);
 						int a = mat[i][i] / gcd;
 						int b = mat[j][i] / gcd;
-						if (j < i) {
-							mat[j][j] = (mat[j][j] * a) % MOD;
+						if (j < i && mat[j][j] != 0) {
+							for (int k = j; k < i; k++) {
+								mat[j][k] = (mat[j][k] * a) % MOD;
+							}
 						}
 						for (int k = i; k <= n + 1; k++) {
 							mat[j][k] = ((mat[j][k] * a - mat[i][k] * b) % MOD + MOD) % MOD;
