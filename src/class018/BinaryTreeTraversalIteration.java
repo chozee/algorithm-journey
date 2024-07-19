@@ -1,5 +1,7 @@
 package class018;
 
+import exercise.tree.TraverseTreeForeach;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -113,14 +115,19 @@ public class BinaryTreeTraversalIteration {
 		head.left.right = new TreeNode(5);
 		head.right.left = new TreeNode(6);
 		head.right.right = new TreeNode(7);
-		preOrder(head);
-		System.out.println("先序遍历非递归版");
-		inOrder(head);
-		System.out.println("中序遍历非递归版");
+//		preOrder(head);
+//		System.out.println("先序遍历非递归版");
+//		TraverseTreeForeach.preorder(head);
+//		System.out.println("my preoder end.");
+//		inOrder(head);
+//		System.out.println("中序遍历非递归版");
+//		TraverseTreeForeach.inorder(head);
 		posOrderTwoStacks(head);
 		System.out.println("后序遍历非递归版 - 2个栈实现");
-		posOrderOneStack(head);
-		System.out.println("后序遍历非递归版 - 1个栈实现");
+		TraverseTreeForeach.postorder(head);
+
+//		posOrderOneStack(head);
+//		System.out.println("后序遍历非递归版 - 1个栈实现");
 	}
 
 	// 用一个栈完成先序遍历
