@@ -66,19 +66,18 @@ public class Code02_WidgetFactory {
 		return -1;
 	}
 
-	// 高斯消元解决同余方程组模版
+	// 高斯消元解决同余方程组模版，保证初始系数没有负数
 	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
-			int max = i;
 			for (int j = 1; j <= n; j++) {
 				if (j < i && mat[j][j] != 0) {
 					continue;
 				}
-				if (mat[j][i] > mat[max][i]) {
-					max = j;
+				if (mat[j][i] != 0) {
+					swap(i, j);
+					break;
 				}
 			}
-			swap(i, max);
 			if (mat[i][i] != 0) {
 				for (int j = 1; j <= n; j++) {
 					if (i != j && mat[j][i] != 0) {
@@ -99,7 +98,17 @@ public class Code02_WidgetFactory {
 		}
 		for (int i = 1; i <= n; i++) {
 			if (mat[i][i] != 0) {
-				mat[i][n + 1] = (mat[i][n + 1] * inv[mat[i][i]]) % MOD;
+				boolean flag = false;
+				for (int j = i + 1; j <= n; j++) {
+					if (mat[i][j] != 0) {
+						flag = true;
+						break;
+					}
+				}
+				if (!flag) {
+					mat[i][n + 1] = (mat[i][n + 1] * inv[mat[i][i]]) % MOD;
+					mat[i][i] = 1;
+				}
 			}
 		}
 	}
@@ -123,8 +132,8 @@ public class Code02_WidgetFactory {
 				String st = io.next();
 				String et = io.next();
 				for (int j = 1; j <= k; j++) {
-					int type = io.nextInt();
-					mat[i][type] = (mat[i][type] + 1) % MOD;
+					int tool = io.nextInt();
+					mat[i][tool] = (mat[i][tool] + 1) % MOD;
 				}
 				mat[i][s + 1] = ((day(et) - day(st) + 1) % MOD + MOD) % MOD;
 			}
@@ -162,7 +171,8 @@ public class Code02_WidgetFactory {
 		io.close();
 	}
 
-	// 读取字符串推荐用StringTokenizer
+	// Kattio类IO效率很好，但还是不如StreamTokenizer
+	// 只有StreamTokenizer无法正确处理时，才考虑使用这个类
 	// 参考链接 : https://oi-wiki.org/lang/java-pro/
 	public static class Kattio extends PrintWriter {
 		private BufferedReader r;

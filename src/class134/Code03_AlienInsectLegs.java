@@ -36,7 +36,7 @@ public class Code03_AlienInsectLegs {
 
 	public static int need;
 
-	// 高斯消元解决异或方程组很小的改写
+	// 高斯消元解决异或方程组模版 + 位图，很小的改写
 	public static void gauss(int n) {
 		need = 0;
 		for (int i = 1; i <= n; i++) {
@@ -47,17 +47,23 @@ public class Code03_AlienInsectLegs {
 					break;
 				}
 			}
+			// 一旦没有唯一解，可以结束了
 			if (get(i, i) == 0) {
 				return;
 			}
 			for (int j = 1; j <= n; j++) {
 				if (i != j && get(j, i) == 1) {
-					eor(i, j, n + 1);
+					// 因为列从1开始，所以从第1位状态开始才有用
+					// 于是1~n+1列的状态，对应1~n+1位
+					// 但是位图中永远有0位，只不过从来不使用
+					// 于是一共有n+2位状态，都需要异或
+					eor(i, j, n + 2);
 				}
 			}
 		}
 	}
 
+	// 把row行，col列的状态设置成v
 	public static void set(int row, int col, int v) {
 		if (v == 0) {
 			mat[row][col / BIT] &= ~(1L << (col % BIT));
@@ -66,10 +72,13 @@ public class Code03_AlienInsectLegs {
 		}
 	}
 
+	// 得到row行，col列的状态
 	public static int get(int row, int col) {
 		return ((mat[row][col / BIT] >> (col % BIT)) & 1) == 1 ? 1 : 0;
 	}
 
+	// row2行状态 = row2行状态 ^ row1行状态
+	// 状态一共有bits位
 	public static void eor(int row1, int row2, int bits) {
 		for (int k = 0; k <= bits / BIT; k++) {
 			mat[row2][k] ^= mat[row1][k];
@@ -118,7 +127,8 @@ public class Code03_AlienInsectLegs {
 		io.close();
 	}
 
-	// 读取字符串推荐用StringTokenizer
+	// Kattio类IO效率很好，但还是不如StreamTokenizer
+	// 只有StreamTokenizer无法正确处理时，才考虑使用这个类
 	// 参考链接 : https://oi-wiki.org/lang/java-pro/
 	public static class Kattio extends PrintWriter {
 		private BufferedReader r;
